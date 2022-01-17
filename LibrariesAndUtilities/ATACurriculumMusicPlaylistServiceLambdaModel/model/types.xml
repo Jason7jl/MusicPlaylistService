@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definition assembly="com.amazon.ata.music.playlist.service" version="1.0">
+
+  <!-- Primitive types used by other structures. These can be
+       mapped to the Java object if you want to return null values. -->
+  <long name="Long"/>
+  <boolean name="Boolean"/>
+  <integer name="Integer"/>
+  <java target="Integer">
+    <class value="java.lang.Integer"/>
+  </java>
+  <timestamp name="Timestamp"/>
+
+  <string name="NonEmptyString"/>
+  <length target="NonEmptyString">
+    <min value="1"/>
+    <max value = "256" />
+  </length>
+
+  <string name="SongOrder"/>
+  <enum target="SongOrder">
+    <enumValue value="DEFAULT" name="DEFAULT"/>
+    <enumValue value="REVERSED" name="REVERSED"/>
+    <enumValue value="SHUFFLED" name="SHUFFLED"/>
+  </enum>
+  <enumjava target="SongOrder">
+    <class value="com.amazon.ata.music.playlist.service.models.SongOrder"/>
+  </enumjava>
+</definition>

@@ -1,0 +1,60 @@
+@startuml
+
+actor "Client" as client
+participant "API Gateway/Lambda" as apiGateway
+participant "GetPlaylistSongsActivity" as getPlaylistSongsActivity
+participant "PlaylistDao" as playlistDao
+database "DynamoDB" as dynamoDB
+
+title Get Playlist Songs
+
+client -> apiGateway : HTTP Request
+activate apiGateway
+
+apiGateway -> getPlaylistSongsActivity : GetPlaylistSongsRequest
+activate getPlaylistSongsActivity
+
+getPlaylistSongsActivity -> playlistDao : getPlayList(id)
+activate playlistDao
+
+playlistDao -> dynamoDB : lookup by playlist id
+activate dynamoDB
+
+alt if playlist does not exist
+dynamoDB --> playlistDao : return with no item data
+playlistDao --> getPlaylistSongsActivity: throw PlayListNotFoundException
+getPlaylistSongsActivity --> apiGateway: propagate PlaylistNotFoundException
+apiGateway --> client: return 400 response
+else else continue
+end
+
+dynamoDB --> playlistDao: return playlist data
+deactivate dynamoDB
+
+playlistDao --> getPlaylistSongsActivity : return PlayList object
+deactivate playlistDao
+
+alt if request.order is provided and is SHUFFLED
+getPlaylistSongsActivity -> getPlaylistSongsActivity: shuffle song list
+
+else else if request.order is provided and is REVERSED
+getPlaylistSongsActivity -> getPlaylistSongsActivity: reverse song list
+else else continue
+end
+
+
+loop for each song in in song list
+getPlaylistSongsActivity -> getPlaylistSongsActivity: Create SongModel
+getPlaylistSongsActivity -> getPlaylistSongsActivity: SetSongModel fields with AlbumTrack data
+getPlaylistSongsActivity -> getPlaylistSongsActivity: store SongModel in list
+end
+
+getPlaylistSongsActivity -> getPlaylistSongsActivity: Create GetPlaylistSongsResult and set SongModel list
+
+getPlaylistSongsActivity --> apiGateway : return GetPlaylistSongsResult
+deactivate getPlaylistSongsActivity
+
+apiGateway --> client : return 200 response with GetPlaylistSongsResult data
+deactivate apiGateway
+
+@enduml

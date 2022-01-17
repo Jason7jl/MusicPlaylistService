@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definition assembly="com.amazon.ata.music.playlist.service" version="1.0">
+
+  <!-- Common Structures -->
+
+  <structure name="PlaylistModel">
+    <member name="id" target="NonEmptyString"/>
+    <member name="name" target="NonEmptyString"/>
+    <member name="customerId" target="NonEmptyString"/>
+    <member name="songCount" target="Integer"/>
+    <member name="tags" target="TagList"/>
+  </structure>
+
+  <structure name="SongModel">
+    <member name="asin" target="NonEmptyString"/>
+    <member name="album" target="NonEmptyString"/>
+    <member name="trackNumber" target="Integer"/>
+    <member name="title" target="NonEmptyString"/>
+  </structure>
+
+  <!-- Lists -->
+
+  <list name="SongList">
+    <member target="SongModel"/>
+  </list>
+
+  <list name="TagList">
+    <member target="NonEmptyString"/>
+  </list>
+  <length target="TagList">
+    <min value="1"/>
+    <max value = "10"/>
+  </length>
+
+</definition>

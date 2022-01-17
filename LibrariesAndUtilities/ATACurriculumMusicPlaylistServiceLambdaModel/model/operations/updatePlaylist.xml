@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definition assembly="com.amazon.ata.music.playlist.service" version="1.0">
+  <documentation target="UpdatePlaylist">
+    Update an existing playlist.
+  </documentation>
+
+  <operation name="UpdatePlaylist">
+    <input target="UpdatePlaylistRequest"/>
+    <output target="UpdatePlaylistResult"/>
+    <error target="MusicPlaylistClientException"/>
+    <error target="MusicPlaylistServiceException"/>
+  </operation>
+  <http target="UpdatePlaylist">
+    <verb value="PUT"/>
+    <uri value="playlists/{id}"/>
+  </http>
+
+  <structure name="UpdatePlaylistRequest">
+    <member name="id" target="NonEmptyString"/>
+    <member name="name" target="NonEmptyString"/>
+    <member name="customerId" target="NonEmptyString"/>
+  </structure>
+  <required target="UpdatePlaylistRequest$id"/>
+  <required target="UpdatePlaylistRequest$name"/>
+  <required target="UpdatePlaylistRequest$customerId"/>
+  <httplabel target="UpdatePlaylistRequest$id">
+    <label value="id"/>
+  </httplabel>
+
+  <structure name="UpdatePlaylistResult">
+    <member name="playlist" target="PlaylistModel"/>
+  </structure>
+</definition>

@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="TestSuite" verbose="2">
+    <parameter name="awsAccountId" value="843857257139"/>
+    <parameter name="domain" value="beta"/>
+    <parameter name="realm"  value="us-west-2"/>
+    <test name="ATACurriculumMusicPlaylistServiceLambdaBetaIntegTests" annotations="JDK" parallel="methods" verbose="2">
+        <packages>
+            <package name="com.amazon.ata.music.playlist.service.*"/>
+        </packages>
+    </test>
+</suite>

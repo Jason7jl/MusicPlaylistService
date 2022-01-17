@@ -1,0 +1,82 @@
+@startuml
+
+actor "Client" as client
+participant "API Gateway/Lambda" as apiGateway
+participant "UpdatePlaylistActivity" as updatePlaylistActivity
+participant "PlaylistDao" as playlistDao
+database "DynamoDB" as dynamoDB
+
+title Update Playlist
+
+client -> apiGateway : HTTP Request
+activate apiGateway
+
+apiGateway -> updatePlaylistActivity : UpdatePlaylistRequest
+activate updatePlaylistActivity
+
+updatePlaylistActivity -> updatePlaylistActivity : validate playlist name from request
+
+alt if name contains invalid characters
+updatePlaylistActivity --> apiGateway : throw InvalidAttributeValueException
+apiGateway --> client: return 400 response
+
+else else continue
+end
+
+updatePlaylistActivity -> playlistDao : getPlayList(id)
+activate playlistDao
+
+playlistDao -> dynamoDB : lookup by playlist id
+activate dynamoDB
+
+alt if playlist does not exist
+dynamoDB --> playlistDao : return with no item data
+playlistDao --> updatePlaylistActivity: throw PlayListNotFoundException
+updatePlaylistActivity --> apiGateway: propagate PlaylistNotFoundException
+apiGateway --> client: return 400 response
+else else continue
+end
+
+dynamoDB --> playlistDao: return playlist data
+deactivate dynamoDB
+
+playlistDao --> updatePlaylistActivity : return PlayList object
+deactivate playlistDao
+
+updatePlaylistActivity -> updatePlaylistActivity : validate playlist customer ID matches request
+alt if the request's customer ID and the playlist's customer ID are different
+updatePlaylistActivity --> apiGateway: throw InvalidAttributeChangeException
+apiGateway --> client: return 400 response
+
+else else continue
+end
+
+
+updatePlaylistActivity -> updatePlaylistActivity: update Playlist
+
+updatePlaylistActivity -> playlistDao : savePlaylist(Playlist)
+activate playlistDao
+
+playlistDao -> dynamoDB : store Playlist
+activate dynamoDB
+
+dynamoDB --> playlistDao : return 200 response
+deactivate dynamoDB
+
+playlistDao --> updatePlaylistActivity : return updated Playlist object
+deactivate playlistDao
+
+updatePlaylistActivity -> updatePlaylistActivity: create PlaylistModel
+
+updatePlaylistActivity -> updatePlaylistActivity: set PlaylistModel with saved Playlist data
+
+updatePlaylistActivity -> updatePlaylistActivity: Create UpdatePlaylistResponse
+updatePlaylistActivity -> updatePlaylistActivity: Set PlaylistModel field in UpdatePlaylistResponse
+
+updatePlaylistActivity --> apiGateway : return UpdatePlaylistResponse
+deactivate updatePlaylistActivity
+
+apiGateway --> client : return 200 response with UpdatePlaylistResponse data
+deactivate apiGateway
+
+@enduml

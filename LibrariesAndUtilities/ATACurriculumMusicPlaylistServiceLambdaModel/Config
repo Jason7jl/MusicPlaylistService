@@ -1,0 +1,42 @@
+# -*-perl-*-
+
+package.ATACurriculumMusicPlaylistServiceLambdaModel = {
+    build-system = happytrails-and-coral2swagger;
+    interfaces = (C2020July);
+
+    flavors = {
+        map = single;
+        generation = 1;
+    };
+    scope = interface;
+
+    deploy = {
+        generic = true;
+    };
+
+    build-environment = {
+        chroot = basic;
+        network-access = blocked;
+    };
+
+    dependencies = {
+        C2020July = {
+            ATACurriculumTctIntrospectionModel = 1.0;
+        };
+    };
+
+    build-tools = {
+        C2020July = {
+            JDK8 = 1.0;
+            HappierTrails = 3.4;
+            CoralGenerator = 1.2;
+            Coral2Swagger = 1.0;
+        };
+    };
+
+    targets = {
+        model = {
+            type = coralmodel;
+        };
+    };
+};

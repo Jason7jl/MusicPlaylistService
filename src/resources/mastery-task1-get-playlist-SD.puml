@@ -1,0 +1,43 @@
+@startuml
+title Get Playlist
+
+actor Client
+participant "API Gateway" as APIGateway
+participant Lambda
+participant GetPlaylistActivity
+participant PlaylistDao
+participant ModelConverter
+database DynamoDB
+
+Client -> APIGateway : GET /playlists/:id
+activate Client
+APIGateway -> Lambda
+activate Lambda
+activate GetPlaylistActivity
+activate PlaylistDao
+Lambda -> GetPlaylistActivity :  handleRequest(GetPlaylistRequest, Context)
+GetPlaylistActivity -> PlaylistDao : getPlaylist(requestedId : String)
+PlaylistDao -> DynamoDB : load playlist by ID
+alt if playlist ID does not exist
+    PlaylistDao <-- DynamoDB : null
+    Lambda <-- PlaylistDao : throw PlaylistNotFoundException
+    APIGateway <-- Lambda
+    Client <-- APIGateway : 404 Response
+else otherwise, continue
+end
+
+PlaylistDao <-- DynamoDB : Playlist
+GetPlaylistActivity <-- PlaylistDao : Playlist
+GetPlaylistActivity -> ModelConverter : toPlaylistModel(Playlist)
+activate ModelConverter
+GetPlaylistActivity <-- ModelConverter : PlaylistModel
+deactivate ModelConverter
+Lambda <-- GetPlaylistActivity : GetPlaylistResult
+APIGateway <-- Lambda
+deactivate PlaylistDao
+deactivate GetPlaylistActivity
+deactivate Lambda
+Client <-- APIGateway : 200 Response
+deactivate Client
+
+@enduml

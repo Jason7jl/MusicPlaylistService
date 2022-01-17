@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definition assembly="com.amazon.ata.music.playlist.service" version="1.0">
+
+  <documentation target="AddSongToPlaylist">
+    Add a song to a playlist based on an album name and track number.
+
+    Returns the updated song list of the playlist.
+  </documentation>
+
+  <operation name="AddSongToPlaylist">
+    <input target="AddSongToPlaylistRequest"/>
+    <output target="AddSongToPlaylistResult"/>
+    <error target="MusicPlaylistClientException"/>
+    <error target="MusicPlaylistServiceException"/>
+  </operation>
+  <http target="AddSongToPlaylist">
+    <verb value="POST"/>
+    <uri value="playlists/{id}/songs"/>
+  </http>
+
+  <structure name="AddSongToPlaylistRequest">
+    <member name="id" target="NonEmptyString"/>
+    <member name="asin" target="NonEmptyString"/>
+    <member name="trackNumber" target="Integer"/>
+    <member name="queueNext" target="Boolean"/>
+  </structure>
+  <required target="AddSongToPlaylistRequest$id"/>
+  <required target="AddSongToPlaylistRequest$asin"/>
+  <required target="AddSongToPlaylistRequest$trackNumber"/>
+  <httplabel target="AddSongToPlaylistRequest$id">
+    <label value="id"/>
+  </httplabel>
+
+  <structure name="AddSongToPlaylistResult">
+    <member name="songList" target="SongList"/>
+  </structure>
+
+</definition>

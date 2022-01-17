@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+
+<project name="ATACurriculumMusicPlaylistServiceTCTs-C2020July" basedir="." default="release" xmlns:ht="happytrails">
+
+  <import file="${happytrails.root}/happytrails.xml" optional="false"/>
+
+  <property name="validateclasspath.failOnError" value="true"/>
+  <property name="allow.empty.tests.dir" value="true"/>
+
+  <property name="findbugs.failOnError" value="true"/>
+
+  <property name="checkstyle.failOnError" value="true" />
+  <property name="ht.checkstyle.always.report" value="true"/>
+  <property name="checkstyle.configuration.file" value="${bp:[ATACheckstyle]pkg.src}/configuration/checkstyle/checkstyle.xml"/>
+  <property name="checkstyle.suppression.filter" value="${bp:[ATACheckstyle]pkg.src}/configuration/checkstyle/unit3/suppressions.xml"/>
+  <property name="configuration.dir" location="${basedir}/configuration" />
+  <property name="ht.include.cfg" value="true" />
+
+  <ht:import file="happier-trails.xml" optional="false"/>
+
+  <ht:import file="testng-test-impl.xml" optional="false"/>
+
+  <property name="trustStoreArgs" value="-Djavax.net.ssl.trustStore=&quot;${bp:run.configfarm.certs}/certs/InternalAndExternalTrustStore.jks&quot; -Djavax.net.ssl.trustStorePassword=&quot;amazon&quot;" />
+
+  <target name="testng-run" depends="release">
+    <testng delegateCommandSystemProperties="true" dumpCommand="true" haltonfailure="true" outputdir="${bp:package-build-root}brazil-integration-tests" useDefaultListeners="true">
+
+      <env key="CORAL_CONFIG_PATH" value="${bp:run.coralconfig}"/>
+      <jvmarg line="-Duser.timezone=UTC -Dfile.encoding=UTF-8 -Dlog4j.configuration=log4j.properties ${trustStoreArgs}"/>
+
+      <classpath>
+        <pathelement path="${bp:build.classpath}"/>
+        <pathelement path="${bp:package-build-root}"/>
+        <pathelement path="${bp:run.classpath}"/>
+        <pathelement path="${classes.dir}"/>
+      </classpath>
+      <sysproperty key="root" value="${bp:package-build-root}"/>
+
+      <xmlfileset file="${testng-xml}"/>
+    </testng>
+  </target>
+
+  <target name="testng-run-beta">
+    <property name="testng-xml" value="src/testng-beta.xml"/>
+    <ant target="testng-run"/>
+  </target>
+</project>

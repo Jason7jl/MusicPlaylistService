@@ -1,0 +1,93 @@
+@startuml
+
+actor "Client" as client
+participant "API Gateway/Lambda" as apiGateway
+participant "AddSongToPlaylistActivity" as addSongActivity
+participant "PlaylistDao" as playlistDao
+participant "AlbuTrackDao" as albumTrackDao
+database "DynamoDB" as dynamoDB
+
+title Add Song To Playlist
+
+client -> apiGateway : HTTP Request
+activate apiGateway
+
+apiGateway -> addSongActivity : AddSongToPlaylistRequest
+activate addSongActivity
+
+addSongActivity -> playlistDao : getPlayList(id)
+activate playlistDao
+
+playlistDao -> dynamoDB : lookup by playlist id
+activate dynamoDB
+
+alt if playlist does not exist
+dynamoDB --> playlistDao : return with no item data
+playlistDao --> addSongActivity: throw PlayListNotFoundException
+addSongActivity --> apiGateway: propagate PlaylistNotFoundException
+apiGateway --> client: return 400 response
+else else continue
+end
+
+dynamoDB --> playlistDao: return playlist data
+deactivate dynamoDB
+
+playlistDao --> addSongActivity : return PlayList object
+deactivate playlistDao
+
+addSongActivity -> albumTrackDao : getAlbumTrack(asin, trackNumber)
+activate albumTrackDao
+
+albumTrackDao -> dynamoDB : lookup by asin, track_number
+activate dynamoDB
+
+alt if song does not exist
+dynamoDB --> albumTrackDao: return with no album_track data
+albumTrackDao --> addSongActivity : throw AlbumTrackNotFoundException
+addSongActivity --> apiGateway: propagate AlbumTrackNotFoundException
+apiGateway --> client : return 400 response
+else else continue
+end
+
+dynamoDB --> albumTrackDao: return with album_track data
+deactivate dynamoDB
+
+albumTrackDao --> addSongActivity : return AlbumTrack object
+deactivate albumTrackDao
+
+alt if request.queueNext is provided and true
+addSongActivity -> addSongActivity: add song to front of playlist
+
+else else
+addSongActivity -> addSongActivity: add song to back of playlist
+end
+
+addSongActivity -> addSongActivity: update playlist song count
+
+addSongActivity -> playlistDao : savePlaylist(Playlist)
+activate playlistDao
+
+playlistDao -> dynamoDB : store Playlist
+activate dynamoDB
+
+dynamoDB --> playlistDao : return 200 response
+deactivate dynamoDB
+
+playlistDao --> addSongActivity : return updated Playlist object
+deactivate playlistDao
+
+loop for each song in playlist
+addSongActivity -> addSongActivity: Create SongModel
+addSongActivity -> addSongActivity: SetSongModel fields with AlbumTrack data
+addSongActivity -> addSongActivity: store SongModel in list
+end
+
+addSongActivity -> addSongActivity: Create AddSongToPlaylistResult and set SongModel list
+
+addSongActivity --> apiGateway : return AddSongToPlaylistResult
+deactivate addSongActivity
+
+apiGateway --> client : return 200 response with AddSongToPlaylistResult data
+deactivate apiGateway
+
+@enduml

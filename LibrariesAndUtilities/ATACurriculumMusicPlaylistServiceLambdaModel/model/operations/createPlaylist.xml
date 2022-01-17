@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definition assembly="com.amazon.ata.music.playlist.service" version="1.0">
+
+  <documentation target="CreatePlaylist">
+    Create a new, empty playlist.
+
+    Returns the playlist information.
+  </documentation>
+
+  <operation name="CreatePlaylist">
+    <input target="CreatePlaylistRequest"/>
+    <output target="CreatePlaylistResult"/>
+    <error target="MusicPlaylistClientException"/>
+    <error target="MusicPlaylistServiceException"/>
+  </operation>
+  <http target="CreatePlaylist">
+    <verb value="POST"/>
+    <uri value="playlists"/>
+  </http>
+
+  <structure name="CreatePlaylistRequest">
+    <member name="name" target="NonEmptyString"/>
+    <member name="customerId" target="NonEmptyString"/>
+    <member name="tags" target="TagList"/>
+  </structure>
+  <required target="CreatePlaylistRequest$name"/>
+  <required target="CreatePlaylistRequest$customerId"/>
+
+  <structure name="CreatePlaylistResult">
+    <member name="playlist" target="PlaylistModel"/>
+  </structure>
+
+</definition>

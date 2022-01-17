@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definition assembly="com.amazon.ata.music.playlist.service" version="1.0">
+
+  <documentation target="GetPlaylistSongs">
+    Get a playlist's list of songs.
+
+    Returns the song list of the playlist.
+  </documentation>
+
+  <operation name="GetPlaylistSongs">
+    <input target="GetPlaylistSongsRequest"/>
+    <output target="GetPlaylistSongsResult"/>
+    <error target="MusicPlaylistClientException"/>
+    <error target="MusicPlaylistServiceException"/>
+  </operation>
+  <http target="GetPlaylistSongs">
+    <verb value="GET"/>
+    <uri value="playlists/{id}/songs?order={order}"/>
+  </http>
+
+  <structure name="GetPlaylistSongsRequest">
+    <member name="id" target="NonEmptyString"/>
+    <member name="order" target="SongOrder"/>
+  </structure>
+  <required target="GetPlaylistSongsRequest$id"/>
+  <httplabel target="GetPlaylistSongsRequest$id">
+    <label value="id"/>
+  </httplabel>
+  <httplabel target="GetPlaylistSongsRequest$order">
+    <label value="order"/>
+  </httplabel>
+
+  <structure name="GetPlaylistSongsResult">
+    <member name="songList" target="SongList"/>
+  </structure>
+</definition>

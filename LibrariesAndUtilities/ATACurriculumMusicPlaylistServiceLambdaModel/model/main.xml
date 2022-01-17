@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definition assembly="com.amazon.ata.music.playlist.service" version="1.0">
+    <documentation target="ATACurriculumMusicPlaylistService">
+        API model for ATA Unit 3 project service to manage music playlists.
+
+        Originally created for V2 Cohort 1.
+    </documentation>
+
+    <service name="ATACurriculumMusicPlaylistService">
+        <operation target="com.amazon.ata.test.tct.introspection.types#ExecuteTctSuite" />
+        <operation target="GetPlaylist"/>
+        <operation target="CreatePlaylist"/>
+        <operation target="UpdatePlaylist"/>
+        <operation target="AddSongToPlaylist"/>
+        <operation target="GetPlaylistSongs"/>
+    </service>
+</definition>

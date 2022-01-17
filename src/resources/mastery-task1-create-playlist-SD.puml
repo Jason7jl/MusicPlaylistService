@@ -1,0 +1,54 @@
+@startuml
+title Create Playlist
+
+actor Client
+participant "API Gateway" as APIGateway
+participant Lambda
+participant CreatePlaylistActivity
+participant PlaylistDao
+participant MusicPlaylistServiceUtils
+participant ModelConverter
+database DynamoDB
+
+Client -> APIGateway : POST /playlists
+activate Client
+APIGateway -> Lambda
+activate Lambda
+activate CreatePlaylistActivity
+activate PlaylistDao
+Lambda -> CreatePlaylistActivity :  handleRequest(CreatePlaylistRequest, Context)
+CreatePlaylistActivity -> MusicPlaylistServiceUtils : isValidString(name)
+CreatePlaylistActivity -> MusicPlaylistServiceUtils : isValidString(customerId)
+
+alt if name or customerId invalid
+    CreatePlaylistActivity <-- MusicPlaylistServiceUtils : false
+    Lambda <-- CreatePlaylistActivity : throw InvalidAttributeValueException
+    APIGateway <-- Lambda
+    Client <-- APIGateway : 4xx Response
+else otherwise, continue
+end
+
+CreatePlaylistActivity -> MusicPlaylistServiceUtils : generatePlaylistId()
+CreatePlaylistActivity <-- MusicPlaylistServiceUtils : new playlist ID
+
+CreatePlaylistActivity -> CreatePlaylistActivity : populate Playlist object
+
+CreatePlaylistActivity -> PlaylistDao : savePlaylist(Playlist)
+PlaylistDao -> DynamoDB : save playlist
+PlaylistDao <-- DynamoDB
+CreatePlaylistActivity <-- PlaylistDao : Playlist
+
+CreatePlaylistActivity -> ModelConverter : toPlaylistModel(Playlist)
+activate ModelConverter
+CreatePlaylistActivity <-- ModelConverter : PlaylistModel
+deactivate ModelConverter
+
+Lambda <-- CreatePlaylistActivity : CreatePlaylistResponse
+deactivate PlaylistDao
+deactivate CreatePlaylistActivity
+APIGateway <-- Lambda
+deactivate Lambda
+Client <-- APIGateway : 200 Response
+deactivate Client
+
+@enduml

@@ -1,0 +1,77 @@
+# -*-perl-*-
+
+package.ATACurriculumMusicPlaylistServiceTCTs = {
+    interfaces = (C2020July);
+
+    scope = interface;
+
+    build-environment = {
+        chroot = basic;
+        network-access = blocked;
+    };
+
+    deploy = {
+        generic = true;
+    };
+
+    build-system = happytrails;
+    build-tools = {
+        C2020July = {
+            JDK8 = 1.0;
+            HappierTrails = 3.4;
+            TestNGAntBuildLogic = 3.0;
+            ATACheckstyle = 1.1;
+        };
+    };
+
+    resolves-conflict-dependencies = {
+        C2020July = {
+            JakartaCommons-codec = 1;
+            JakartaCommons-IO = 2.5;
+            Jackson-databind = 2.9.x;
+            Jackson-core = 2.9.x;
+            Jackson-annotations = 2.9.x;
+            Json-org-java = 2.3;
+            TestNG = 6.x;
+            SnakeYAML = 1.16;
+            GoogleGuava = 20.x;
+            Gson = 2.3.x;
+        };
+    };
+
+
+    dependencies = {
+        C2020July = {
+            AmazonCACerts = 1.0;
+            JakartaCommons-lang3 = 3.x;
+            AWSCloudFormationJavaClient = 1.11.x;
+            AWSJavaClientRuntime = 1.11.x;
+            ATACurriculumTestInfrastructure = 1.0;
+            ATAIntegrationTestInfrastructure = 1.0;
+            ATACurriculumMusicPlaylistServiceLambdaJavaClient = C2020July;
+            ATACurriculumMusicPlaylistServiceLambdaModel = C2020July;
+            BONESIsengardJavaUtils = 1.1;
+            Log4j-api = 2.x;
+            OdinAWSCredentials = 1.3;
+            TestNG = 6.x;
+        };
+    };
+
+    runtime-dependencies = {
+        C2020July = {
+            HydraTestPlatformTestNGLib = 1.0;
+            ATACurriculumMusicPlaylistServiceLambdaClientConfig = C2020July;
+        };
+    };
+
+    test-dependencies = {
+        C2020July = {
+        };
+    };
+
+    # For more information on how to declare targets for HappyTrails packages
+    # see: https://w.amazon.com/?BrazilBuildSystem/HappyTrails/GettingStarted
+    targets = {
+        ATACurriculumMusicPlaylistServiceTCTs-C2020July = { type = javalibrary; };
+    };
+};

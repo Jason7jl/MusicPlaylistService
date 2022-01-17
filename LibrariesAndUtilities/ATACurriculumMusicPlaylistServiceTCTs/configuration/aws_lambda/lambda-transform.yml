@@ -1,0 +1,3 @@
+archive_system: archive_jars
+data_files:
+  - coral-config

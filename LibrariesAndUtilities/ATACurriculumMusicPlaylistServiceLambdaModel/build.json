@@ -1,0 +1,24 @@
+{
+  "models": {
+    "ATACurriculumMusicPlaylistServiceLambda": {
+      "assembly": "com.amazon.ata.music.playlist.service",
+      "metadata": {
+        "api_version": "2017-07-25",
+        "endpoint_prefix": "ATACurriculumMusicPlaylistService",
+        "json_version": 1.1,
+        "service_abbreviation": "ATAMPS",
+        "service_full_name": "A beautiful and amazing ATACurriculumMusicPlaylistService",
+        "signature_version": "v4",
+        "signing_name": "execute-api",
+        "type": "rest-json"
+      },
+      "service": "ATACurriculumMusicPlaylistService",
+      "swagger": {
+        "basePath": "/",
+        "executionRoleReferenceGenerator": "com.amazonaws.coral2swagger.generator.references.SingletonReferenceGenerator",
+        "lambdaReferenceGenerator": "com.amazonaws.coral2swagger.generator.references.SingletonReferenceGenerator",
+        "enableCORS": true
+      }
+    }
+  }
+}

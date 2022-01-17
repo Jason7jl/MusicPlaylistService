@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Keeping this file in the classpath enables the automatic configuration.
+     More details: https://logging.apache.org/log4j/2.x/manual/configuration.html -->
+<Configuration status="INFO"> <!-- The log level for the log4j2 internal classes. -->
+    <Appenders>
+        <Console name="CONSOLE" target="SYSTEM_OUT">
+            <PatternLayout pattern= "%d{dd MMM yyyy HH:mm:ss,SSS} [%p] %X{RequestId} (%t) %c: %m%n"/>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <Root level="WARN"> <!-- Sets the general log level. -->
+            <AppenderRef ref="CONSOLE" />
+        </Root>
+
+    </Loggers>
+</Configuration>

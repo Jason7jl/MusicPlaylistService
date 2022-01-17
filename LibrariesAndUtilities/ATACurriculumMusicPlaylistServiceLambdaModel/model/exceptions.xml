@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definition assembly="com.amazon.ata.music.playlist.service" version="1.0">
+
+  <!-- Exception definitions -->
+  <documentation target="MusicPlaylistClientException">
+    Represents MusicPlaylistService client exceptions.
+  </documentation>
+  <structure name="MusicPlaylistClientException">
+    <member name="message" target="NonEmptyString"/>
+  </structure>
+
+  <exception target="MusicPlaylistClientException"/>
+  <httperror target="MusicPlaylistClientException">
+    <httpresponsecode value="400"/>
+  </httperror>
+
+  <documentation target="MusicPlaylistServiceException">
+    Represents MusicPlaylistService service exceptions.
+  </documentation>
+  <structure name="MusicPlaylistServiceException">
+    <member name="message" target="NonEmptyString"/>
+  </structure>
+
+  <exception target="MusicPlaylistServiceException"/>
+  <httperror target="MusicPlaylistServiceException">
+    <httpresponsecode value="500"/>
+  </httperror>
+
+</definition>

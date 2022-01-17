@@ -1,0 +1,28 @@
+Resources:
+  PlaylistsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "id"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+      BillingMode: "PAY_PER_REQUEST"
+      TableName: "playlists"
+
+  AlbumTracksTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "asin"
+          AttributeType: "S"
+        - AttributeName: "track_number"
+          AttributeType: "N"
+      KeySchema:
+        - AttributeName: "asin"
+          KeyType: "HASH"
+        - AttributeName: "track_number"
+          KeyType: "RANGE"
+      BillingMode: "PAY_PER_REQUEST"
+      TableName: "album_tracks"

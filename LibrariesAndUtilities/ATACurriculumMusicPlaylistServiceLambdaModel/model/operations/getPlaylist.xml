@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definition assembly="com.amazon.ata.music.playlist.service" version="1.0">
+
+  <documentation target="GetPlaylist">
+    Get a saved playlist.
+
+    Returns the playlist information.
+  </documentation>
+
+  <operation name="GetPlaylist">
+    <input target="GetPlaylistRequest"/>
+    <output target="GetPlaylistResult"/>
+    <error target="MusicPlaylistClientException"/>
+    <error target="MusicPlaylistServiceException"/>
+  </operation>
+  <http target="GetPlaylist">
+    <verb value="GET"/>
+    <uri value="playlists/{id}"/>
+  </http>
+
+  <structure name="GetPlaylistRequest">
+    <member name="id" target="NonEmptyString"/>
+  </structure>
+  <required target="GetPlaylistRequest$id"/>
+  <httplabel target="GetPlaylistRequest$id">
+    <label value="id"/>
+  </httplabel>
+
+  <structure name="GetPlaylistResult">
+    <member name="playlist" target="PlaylistModel"/>
+  </structure>
+
+</definition>

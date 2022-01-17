@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<project xmlns:ht="happytrails" name="ATACurriculumMusicPlaylistServiceLambdaModel-C2020July" default="release" basedir=".">
+    <import file="${happytrails.root}/happytrails.xml" optional="false" />
+    <ht:import file="coral-model.xml" optional="false" />
+</project>
