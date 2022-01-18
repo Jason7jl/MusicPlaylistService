@@ -1,1 +1,100 @@
-PARTICIPANTS: use this file for creating the class diagram in mastery task 01
+@startuml
+
+class AlbumTrackDao {
+- dynamoDbMapper: DynamoDBMapper
+
+}
+class PlaylistDao {
+- dynamoDbMapper: DynamoDBMapper
++ getPlaylist(String): Playlist
+}
+
+class CreatePlaylistActivity {
+- Logger log
+- PlaylistDao playlistDao
++ handleRequest(CreatePlaylistRequest,Context): CreatePlaylistResult
+}
+class AlbumTrack {
+-@DynamoDBHashKey asin : String
+-@DynamoDBRangeKey trackNumber : Integer
+-albumName : String
+-songTitle : String
+}
+class UpdatePlaylistActivity {
+- Logger log
+- PlaylistDao playlistDao
++ handleRequest(UpdatePlaylistRequest,Context): UpdatePlaylistResult
+}
+
+class AddSongToPlaylistActivity {
+- Logger log
+- PlaylistDao playlistDao
+- AlbumTrackDao albumTrackDao
++ handleRequest(AddSongToPlaylistRequest,Context): AddSongToPlaylistResult
+}
+
+class Playlist {
+- @DynamoDBHashKey id: String
+- name: String
+- customerId: String
+- songCount: Integer
+- tags: Set<String>
+- songList: List<AlbumTrack>
++ String getId()
++ void setId(String)
++ List<AlbumTrack> getSongList()
++ void setSongList(List<AlbumTrack>)
+}
+
+class InvalidAttributeValueException {
+- {static} long serialVersionUID
+}
+
+class GetPlaylistActivity {
+- Logger log
+- PlaylistDao playlistDao
++ handleRequest(GetPlaylistRequest,Context): GetPlaylistResult
+}
+
+class GetPlaylistSongsActivity {
+- Logger log
+- PlaylistDao playlistDao
++ handleRequest(GetPlaylistSongsRequest,Context): GetPlaylistSongsResult
+}
+
+class AlbumTrackNotFoundException {
+- {static} long serialVersionUID
+}
+
+
+class PlaylistNotFoundException {
+- {static} long serialVersionUID
+}
+
+class InvalidAttributeChangeException {
+- {static} long serialVersionUID
+}
+
+
+RuntimeException <|-- InvalidAttributeChangeException
+AlbumTrack --* Playlist
+AlbumTrackDao --* AddSongToPlaylistActivity
+PlaylistDao --* CreatePlaylistActivity
+PlaylistDao --* AddSongToPlaylistActivity
+PlaylistDao --* GetPlaylistActivity
+PlaylistDao --* GetPlaylistSongsActivity
+PlaylistDao --* UpdatePlaylistActivity
+RequestHandler <|.. GetPlaylistActivityProvider
+RequestHandler <|.. CreatePlaylistActivity
+RequestHandler <|.. UpdatePlaylistActivity
+RequestHandler <|.. UpdatePlaylistActivityProvider
+RequestHandler <|.. AddSongToPlaylistActivity
+RequestHandler <|.. AddSongToPlaylistActivityProvider
+RuntimeException <|-- InvalidAttributeValueException
+RequestHandler <|.. CreatePlaylistActivityProvider
+RequestHandler <|.. GetPlaylistActivity
+RequestHandler <|.. GetPlaylistSongsActivity
+RuntimeException <|-- AlbumTrackNotFoundException
+RequestHandler <|.. GetPlaylistSongsActivityProvider
+RuntimeException <|-- PlaylistNotFoundException
+@enduml
