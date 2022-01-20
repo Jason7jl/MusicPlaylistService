@@ -49,6 +49,9 @@ class Playlist {
 class InvalidAttributeValueException {
 - {static} long serialVersionUID
 }
+class InvalidAttributeException {
+- {static} long serialVersionUID
+}
 
 class GetPlaylistActivity {
 - Logger log
@@ -76,7 +79,7 @@ class InvalidAttributeChangeException {
 }
 
 
-RuntimeException <|-- InvalidAttributeChangeException
+InvalidAttributeException <|-- InvalidAttributeChangeException
 AlbumTrack --* Playlist
 AlbumTrackDao --* AddSongToPlaylistActivity
 PlaylistDao --* CreatePlaylistActivity
@@ -90,11 +93,12 @@ RequestHandler <|.. UpdatePlaylistActivity
 RequestHandler <|.. UpdatePlaylistActivityProvider
 RequestHandler <|.. AddSongToPlaylistActivity
 RequestHandler <|.. AddSongToPlaylistActivityProvider
-RuntimeException <|-- InvalidAttributeValueException
+InvalidAttributeException <|-- InvalidAttributeValueException
 RequestHandler <|.. CreatePlaylistActivityProvider
 RequestHandler <|.. GetPlaylistActivity
 RequestHandler <|.. GetPlaylistSongsActivity
 RuntimeException <|-- AlbumTrackNotFoundException
 RequestHandler <|.. GetPlaylistSongsActivityProvider
 RuntimeException <|-- PlaylistNotFoundException
+RuntimeException <|-- InvalidAttributeException
 @enduml

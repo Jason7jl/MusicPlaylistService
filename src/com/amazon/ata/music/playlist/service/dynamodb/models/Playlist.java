@@ -15,6 +15,10 @@ import java.util.List;
 @DynamoDBTable(tableName = "playlists")
 public class Playlist {
     private String id;
+    private String name;
+    private String customerId;
+    private Integer songCount;
+    private List<String> tags;
     private List<AlbumTrack> songList;
 
     @DynamoDBHashKey(attributeName = "id")
@@ -35,5 +39,41 @@ public class Playlist {
 
     public void setSongList(List<AlbumTrack> songList) {
         this.songList = songList;
+    }
+
+    @DynamoDBAttribute(attributeName = "name")
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @DynamoDBAttribute(attributeName = "customerId")
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    @DynamoDBAttribute(attributeName = "songCount")
+    public Integer getSongCount() {
+        return songCount;
+    }
+
+    public void setSongCount(Integer songCount) {
+        this.songCount = songCount;
+    }
+
+    @DynamoDBAttribute(attributeName = "tags")
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 }

@@ -20,7 +20,7 @@
 //        playlist.setId("id");
 //        playlist.setName("a playlist");
 //        playlist.setCustomerId("CustomerABC");
-//        playlist.setTags(Collections.singleton("tag"));
+//        playlist.setTags("tag");
 //
 //        List<AlbumTrack> albumTracks = new LinkedList<>();
 //        for (int i = 0; i < numTracks; i++) {

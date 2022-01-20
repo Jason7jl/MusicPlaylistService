@@ -35,4 +35,10 @@ public class PlaylistDao {
 
         return playlist;
     }
+
+    public Playlist savePlaylist(Playlist playlist) {
+
+        this.dynamoDbMapper.save(playlist);
+        return playlist;
+    }
 }
