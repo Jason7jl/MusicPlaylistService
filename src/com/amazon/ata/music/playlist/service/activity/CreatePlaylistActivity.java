@@ -50,8 +50,8 @@ public class CreatePlaylistActivity implements RequestHandler<CreatePlaylistRequ
     public CreatePlaylistResult handleRequest(final CreatePlaylistRequest createPlaylistRequest, Context context) {
         log.info("Received CreatePlaylistRequest {}", createPlaylistRequest);
 
-        if (MusicPlaylistServiceUtils.isValidString(createPlaylistRequest.getName())
-                && MusicPlaylistServiceUtils.isValidString(createPlaylistRequest.getCustomerId())) {
+        if (!MusicPlaylistServiceUtils.isValidString(createPlaylistRequest.getName())
+                || !MusicPlaylistServiceUtils.isValidString(createPlaylistRequest.getCustomerId())) {
             throw new InvalidAttributeValueException("Please recheck your userName or CustomerID.");
         }
 

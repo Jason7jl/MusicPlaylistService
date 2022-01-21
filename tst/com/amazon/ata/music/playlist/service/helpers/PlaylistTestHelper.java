@@ -3,6 +3,7 @@
 //import com.amazon.ata.music.playlist.service.dynamodb.models.AlbumTrack;
 //import com.amazon.ata.music.playlist.service.dynamodb.models.Playlist;
 //
+//import java.util.ArrayList;
 //import java.util.Collections;
 //import java.util.LinkedList;
 //import java.util.List;
@@ -20,7 +21,7 @@
 //        playlist.setId("id");
 //        playlist.setName("a playlist");
 //        playlist.setCustomerId("CustomerABC");
-//        playlist.setTags("tag");
+//        playlist.setTags(new ArrayList<>());
 //
 //        List<AlbumTrack> albumTracks = new LinkedList<>();
 //        for (int i = 0; i < numTracks; i++) {
