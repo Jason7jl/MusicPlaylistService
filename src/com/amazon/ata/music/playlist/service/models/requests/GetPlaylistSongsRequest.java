@@ -11,6 +11,7 @@ public class GetPlaylistSongsRequest {
     public GetPlaylistSongsRequest() {
     }
 
+
     public GetPlaylistSongsRequest(String id, SongOrder order) {
         this.id = id;
         this.order = order;

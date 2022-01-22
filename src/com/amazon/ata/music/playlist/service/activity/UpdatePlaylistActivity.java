@@ -71,7 +71,7 @@ public class UpdatePlaylistActivity implements RequestHandler<UpdatePlaylistRequ
 
 
         if (!updatePlaylistRequest.getCustomerId().equals(playlist.getCustomerId())) {
-            throw new InvalidAttributeChangeException();
+            throw new InvalidAttributeChangeException("Your playlist doesn't exist! Please, checks a customerID.");
         }
 
         playlist.setName(updatePlaylistRequest.getName());
