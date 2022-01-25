@@ -14,6 +14,8 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
+
 /**
  * Implementation of the CreatePlaylistActivity for the MusicPlaylistService's CreatePlaylist API.
  *
@@ -61,6 +63,8 @@ public class CreatePlaylistActivity implements RequestHandler<CreatePlaylistRequ
         playlist.setName(createPlaylistRequest.getName());
         playlist.setTags(createPlaylistRequest.getTags());
         playlist.setId(MusicPlaylistServiceUtils.generatePlaylistId());
+        playlist.setSongList(new ArrayList<>());
+        playlist.setSongCount(0);
 
         playlistDao.savePlaylist(playlist);
 

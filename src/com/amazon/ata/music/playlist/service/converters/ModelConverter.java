@@ -19,7 +19,7 @@ public class ModelConverter {
                 .withId(playlist.getId())
                 .withName(playlist.getName())
                 .withCustomerId(playlist.getCustomerId())
-                .withSongCount(0)
+                .withSongCount(playlist.getSongCount())
                 .withTags(playlist.getTags() != null ? new ArrayList<>(playlist.getTags()) : null)
             .build();
     }
@@ -38,11 +38,13 @@ public class ModelConverter {
     public List<SongModel> toSongModelList(List<AlbumTrack> songList ) {
         List<SongModel> songModelList = new ArrayList<>();
 
-        SongModel songModel = new SongModel();
+
         for (AlbumTrack albumTrack : songList) {
-            ModelConverter modelConverter = new ModelConverter();
-            songModelList.add(modelConverter.toSongModel(albumTrack));
-        }
+
+            songModelList.add(toSongModel(albumTrack));
+    }
+
+
         return songModelList;
     }
 

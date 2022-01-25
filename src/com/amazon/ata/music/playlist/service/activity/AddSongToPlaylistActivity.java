@@ -30,6 +30,7 @@ public class AddSongToPlaylistActivity implements RequestHandler<AddSongToPlayli
     private final Logger log = LogManager.getLogger();
     private final PlaylistDao playlistDao;
     private final AlbumTrackDao albumTrackDao;
+    private final ModelConverter modelConverter = new ModelConverter();
 
 
     /**
@@ -75,7 +76,6 @@ public class AddSongToPlaylistActivity implements RequestHandler<AddSongToPlayli
         AlbumTrack albumTrack = albumTrackDao.getAlbumTrack(addSongToPlaylistRequest.getAsin()
                 , addSongToPlaylistRequest.getTrackNumber());
 
-
         List<AlbumTrack> songList = playlist.getSongList();
 
         if (addSongToPlaylistRequest.isQueueNext()) {
@@ -90,19 +90,8 @@ public class AddSongToPlaylistActivity implements RequestHandler<AddSongToPlayli
 
         playlistDao.savePlaylist(playlist);
 
-
-        List<SongModel> songModelList = new ArrayList<>();
-
-        SongModel songModel = new SongModel();
-        ModelConverter modelConverter = new ModelConverter();
-
-        for (AlbumTrack tempAlbumTrack : songList) {
-            songModelList.add(modelConverter.toSongModel(tempAlbumTrack));
-        }
-
-
         return AddSongToPlaylistResult.builder()
-                .withSongList(songModelList)
+                .withSongList(modelConverter.toSongModelList(songList))
                 .build();
     }
 }

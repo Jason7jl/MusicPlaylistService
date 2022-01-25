@@ -2,6 +2,7 @@ package com.amazon.ata.music.playlist.service.dynamodb;
 
 import com.amazon.ata.music.playlist.service.dynamodb.models.AlbumTrack;
 
+import com.amazon.ata.music.playlist.service.exceptions.AlbumTrackNotFoundException;
 import com.amazon.ata.music.playlist.service.exceptions.PlaylistNotFoundException;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 
@@ -24,7 +25,7 @@ public class AlbumTrackDao {
         AlbumTrack albumTrack = this.dynamoDbMapper.load(AlbumTrack.class, asin, trackNumber);
 
         if (albumTrack == null) {
-            throw new PlaylistNotFoundException("Could not find playlist with id " + asin + "," + trackNumber);
+            throw new AlbumTrackNotFoundException("Could not find albumTrack with asin and trackNumber " + asin + "," + trackNumber);
         }
         return  albumTrack;
     }
