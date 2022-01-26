@@ -21,8 +21,7 @@ public final class PlaylistTestHelper {
         playlist.setId("id");
         playlist.setName("a playlist");
         playlist.setCustomerId("CustomerABC");
-        playlist.setTags(new ArrayList<>());
-
+        playlist.setTags(Collections.singleton("tag"));
         List<AlbumTrack> albumTracks = new LinkedList<>();
         for (int i = 0; i < numTracks; i++) {
             albumTracks.add(AlbumTrackTestHelper.generateAlbumTrack(i));

@@ -2,6 +2,7 @@ package com.amazon.ata.music.playlist.service.models.requests;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class CreatePlaylistRequest {
     private String name;

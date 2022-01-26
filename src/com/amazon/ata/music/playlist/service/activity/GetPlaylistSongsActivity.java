@@ -28,6 +28,7 @@ import java.util.List;
 public class GetPlaylistSongsActivity implements RequestHandler<GetPlaylistSongsRequest, GetPlaylistSongsResult> {
     private final Logger log = LogManager.getLogger();
     private final PlaylistDao playlistDao;
+    private final  ModelConverter modelConverter = new ModelConverter();
 
     /**
      * Instantiates a new GetPlaylistSongsActivity object.
@@ -73,9 +74,7 @@ public class GetPlaylistSongsActivity implements RequestHandler<GetPlaylistSongs
 
         List<SongModel> songModelList = new ArrayList<>();
 
-        SongModel songModel = new SongModel();
         for (AlbumTrack albumTrack : songlist) {
-            ModelConverter modelConverter = new ModelConverter();
             songModelList.add(modelConverter.toSongModel(albumTrack));
         }
 

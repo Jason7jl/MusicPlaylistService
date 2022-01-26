@@ -86,8 +86,6 @@ public class AddSongToPlaylistActivity implements RequestHandler<AddSongToPlayli
             playlist.setSongCount(playlist.getSongCount() + 1);
         }
 
-        playlist.setSongList(songList);
-
         playlistDao.savePlaylist(playlist);
 
         return AddSongToPlaylistResult.builder()

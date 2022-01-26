@@ -30,9 +30,4 @@ public class AlbumTrackDao {
         return  albumTrack;
     }
 
-    public AlbumTrack saveAlbumTrack(AlbumTrack albumTrack) {
-
-        this.dynamoDbMapper.save(albumTrack);
-        return albumTrack;
-    }
 }

@@ -10,7 +10,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -42,7 +45,7 @@ public class GetPlaylistActivityTest {
         playlist.setName(expectedName);
         playlist.setCustomerId(expectedCustomerId);
         playlist.setSongCount(expectedSongCount);
-        playlist.setTags(expectedTags);
+        playlist.setTags(new HashSet<>(expectedTags));
 
         when(playlistDao.getPlaylist(expectedId)).thenReturn(playlist);
 
