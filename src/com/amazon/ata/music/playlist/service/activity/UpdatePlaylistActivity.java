@@ -16,6 +16,8 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.inject.Inject;
+
 /**
  * Implementation of the UpdatePlaylistActivity for the MusicPlaylistService's UpdatePlaylist API.
  * <p>
@@ -31,6 +33,7 @@ public class UpdatePlaylistActivity implements RequestHandler<UpdatePlaylistRequ
      *
      * @param playlistDao PlaylistDao to access the playlist table.
      */
+    @Inject
     public UpdatePlaylistActivity(PlaylistDao playlistDao) {
         this.playlistDao = playlistDao;
     }
