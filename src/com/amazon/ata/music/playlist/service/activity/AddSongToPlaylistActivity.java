@@ -20,6 +20,7 @@ import org.apache.logging.log4j.Logger;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -78,15 +79,14 @@ public class AddSongToPlaylistActivity implements RequestHandler<AddSongToPlayli
         AlbumTrack albumTrack = albumTrackDao.getAlbumTrack(addSongToPlaylistRequest.getAsin()
                 , addSongToPlaylistRequest.getTrackNumber());
 
-        List<AlbumTrack> songList = playlist.getSongList();
+       LinkedList<AlbumTrack> songList = (LinkedList<AlbumTrack>) playlist.getSongList();
 
         if (addSongToPlaylistRequest.isQueueNext()) {
-            songList.add(0, albumTrack);
-            playlist.setSongCount(playlist.getSongCount() + 1);
+            songList.addFirst(albumTrack);
         } else {
-            songList.add(albumTrack);
-            playlist.setSongCount(playlist.getSongCount() + 1);
+            songList.addLast(albumTrack);
         }
+        playlist.setSongCount(playlist.getSongCount() + 1);
 
         playlistDao.savePlaylist(playlist);
 
