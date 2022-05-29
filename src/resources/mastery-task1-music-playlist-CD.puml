@@ -87,18 +87,13 @@ PlaylistDao --* AddSongToPlaylistActivity
 PlaylistDao --* GetPlaylistActivity
 PlaylistDao --* GetPlaylistSongsActivity
 PlaylistDao --* UpdatePlaylistActivity
-RequestHandler <|.. GetPlaylistActivityProvider
 RequestHandler <|.. CreatePlaylistActivity
 RequestHandler <|.. UpdatePlaylistActivity
-RequestHandler <|.. UpdatePlaylistActivityProvider
 RequestHandler <|.. AddSongToPlaylistActivity
-RequestHandler <|.. AddSongToPlaylistActivityProvider
 InvalidAttributeException <|-- InvalidAttributeValueException
-RequestHandler <|.. CreatePlaylistActivityProvider
 RequestHandler <|.. GetPlaylistActivity
 RequestHandler <|.. GetPlaylistSongsActivity
 RuntimeException <|-- AlbumTrackNotFoundException
-RequestHandler <|.. GetPlaylistSongsActivityProvider
 RuntimeException <|-- PlaylistNotFoundException
 RuntimeException <|-- InvalidAttributeException
 @enduml

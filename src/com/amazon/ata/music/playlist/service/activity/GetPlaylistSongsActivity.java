@@ -73,13 +73,11 @@ public class GetPlaylistSongsActivity implements RequestHandler<GetPlaylistSongs
             Collections.shuffle(songlist);
         }
 
-
         List<SongModel> songModelList = new ArrayList<>();
 
         for (AlbumTrack albumTrack : songlist) {
             songModelList.add(modelConverter.toSongModel(albumTrack));
         }
-
 
         return GetPlaylistSongsResult.builder()
                 .withSongList(songModelList)
